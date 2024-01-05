@@ -6,7 +6,7 @@ import io.netty.channel.socket.SocketChannel;
 
 public class HandlerInitializer extends ChannelInitializer<SocketChannel> {
 
-    private HandlerManager handlerManager;
+    private final HandlerManager handlerManager;
 
     public HandlerInitializer(HandlerManager handlerManager) {
         this.handlerManager = handlerManager;
