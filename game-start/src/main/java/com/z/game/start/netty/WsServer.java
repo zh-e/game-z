@@ -13,16 +13,22 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 public class WsServer extends Thread {
 
-    private int port;
+    private final int bossGroupSize;
 
-    public WsServer(int port) {
+    private final int workerGroupSize;
+
+    private final int port;
+
+    public WsServer(int bossGroupSize, int workerGroupSize, int port) {
+        this.bossGroupSize = bossGroupSize;
+        this.workerGroupSize = workerGroupSize;
         this.port = port;
     }
 
     @Override
     public void run() {
-        EventLoopGroup bossGroup = new NioEventLoopGroup();
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
+        EventLoopGroup bossGroup = new NioEventLoopGroup(bossGroupSize);
+        EventLoopGroup workerGroup = new NioEventLoopGroup(workerGroupSize);
 
         HandlerManager handlerManager = new DefaultWsHandlerManager();
         HandlerInitializer initializer = new HandlerInitializer(handlerManager);
