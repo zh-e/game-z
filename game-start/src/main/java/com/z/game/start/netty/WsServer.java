@@ -48,6 +48,7 @@ public class WsServer extends Thread {
 
             System.out.println("Ws server started on port " + port);
         } catch (Exception e) {
+            //TODO 异常处理
             e.printStackTrace();
         }
     }

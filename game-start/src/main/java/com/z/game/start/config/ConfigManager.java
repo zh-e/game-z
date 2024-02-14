@@ -16,7 +16,7 @@ public class ConfigManager {
         load("server.properties");
     }
 
-    private static void load(String propertiesFile) {
+    private synchronized static void load(String propertiesFile) {
         Properties properties = new Properties();
 
         try (InputStream in = ConfigManager.class.getClassLoader().getResourceAsStream(propertiesFile)) {
