@@ -26,10 +26,17 @@ public class Node implements Actuator {
      */
     private final ConcurrentHashMap<String, Port> ports = new ConcurrentHashMap<>();
 
+    private final ThreadHandler threadHandler;
+
     public Node(String nodeId, String nodeAddr) {
         this.nodeId = nodeId;
         this.nodeAddr = nodeAddr;
         this.running = true;
+        this.threadHandler = new ThreadHandler(this, "node");
+    }
+
+    public void startUp() {
+
     }
 
     public boolean addPort(Port port) {
