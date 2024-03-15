@@ -1,7 +1,9 @@
 package com.z.game.start.netty.handler;
 
 import com.z.game.start.constant.SysMsgId;
-import com.z.game.start.msg.PingMsg;
+import com.z.game.start.msg.Message;
+import com.z.game.start.msg.MessageCmdManager;
+import com.z.game.start.msg.MessageContent;
 import com.z.game.start.util.JsonUtils;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -28,10 +30,17 @@ public class WsDecoder extends ChannelInboundHandlerAdapter {
         in.readBytes(body);
         in.release();
 
-        if (cmd == SysMsgId.HEART_BEAT) {
-            PingMsg pingMsg = JsonUtils.fromJson(body, PingMsg.class);
+        Class<? extends Message> clazz = MessageCmdManager.getMessageType(cmd);
 
-            ctx.fireChannelRead(pingMsg);
+        if (cmd == SysMsgId.HEART_BEAT) {
+            Message message = JsonUtils.fromJson(body, clazz);
+            MessageContent<Message> content = new MessageContent<>();
+            content.setCmd(cmd);
+            content.setVersion(version);
+            content.setFlag(flag);
+            content.setData(message);
+
+            ctx.fireChannelRead(message);
         }
 
 
