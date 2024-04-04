@@ -4,8 +4,8 @@ import com.z.game.start.config.ConfigManager;
 import com.z.game.start.msg.Message;
 import com.z.game.start.msg.MessageCmd;
 import com.z.game.start.msg.MessageCmdManager;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +22,7 @@ import java.util.jar.JarFile;
 
 public class PackageScan {
 
-    private static final Logger LOGGER = LogManager.getLogger(PackageScan.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PackageScan.class);
 
     public static void init() {
         String scanPackage = ConfigManager.getServerConfig().getScanPackage();
