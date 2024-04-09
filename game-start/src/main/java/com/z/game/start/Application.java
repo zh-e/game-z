@@ -24,9 +24,11 @@ public class Application {
         PackageScan.init();
 
         //初始化当前节点
-        Node node = new Node(nodeId, "");
+        Node node = Node.getInstance();
+        node.init(nodeId, "");
+
         //初始化处理链接的port
-        initConnPort(node);
+        initConnPort();
 
         //netty长链接建立
         WsServer wsServer = new WsServer();
@@ -39,13 +41,13 @@ public class Application {
         LOGGER.info("application start up success");
     }
 
-    private static void initConnPort(Node node) {
+    private static void initConnPort() {
+
         int connPortCount = ConfigManager.getServerConfig().getConnPortCount();
         for (int i = 0; i < connPortCount; i++) {
             Port port = new ConnPort(Constants.CONN_PORT_NAME_PRE + i);
-            port.startUp(node);
+            port.startUp(Node.getInstance());
         }
-
 
     }
 
