@@ -2,8 +2,13 @@ package com.z.game.start.core;
 
 import com.z.game.start.core.interfaces.Actuator;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Node implements Actuator {
 
@@ -23,6 +28,8 @@ public class Node implements Actuator {
      * 是否正在运行
      */
     private volatile boolean running;
+
+    private List<ConnPort> connPorts = new CopyOnWriteArrayList<>();
 
     /**
      * 下游所有port
@@ -59,6 +66,14 @@ public class Node implements Actuator {
 
     public Port getPort(String portId) {
         return ports.get(portId);
+    }
+
+    public void addConnPort(ConnPort connPort) {
+        connPorts.add(connPort);
+    }
+
+    public ConnPort getRandomConnPort() {
+        return connPorts.get(ThreadLocalRandom.current().nextInt(connPorts.size()));
     }
 
     public boolean delPort(String portId) {
