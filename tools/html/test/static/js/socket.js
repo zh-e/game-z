@@ -92,9 +92,16 @@ var Vm = new Vue({
                     wsInstance.onmessage = function (ev) {
                         if (!_this.recvPause) {
                             let data = _this.arrayBufferToData(ev.data);
+
                             if (_this.recvClean)
                                 _this.messageData = [];
-                            _this.writeNews(0, data);
+
+                            if (data.cmd === 1000) {
+                                _this.writeConsole('info', '收到消息' + JSON.stringify(data))
+                            } else {
+                                _this.writeNews(0, data);
+                            }
+
                         }
                     }
                     this.instance = wsInstance;
