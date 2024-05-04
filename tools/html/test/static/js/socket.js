@@ -90,10 +90,10 @@ var Vm = new Vue({
                         _this.writeConsole('danger', '发生错误 请打开浏览器控制台查看')
                     }
                     wsInstance.onmessage = function (ev) {
-                        console.warn(ev)
                         if (!_this.recvPause) {
-                            var data = ev.data
-                            if (_this.recvClean) _this.messageData = [];
+                            let data = _this.arrayBufferToData(ev.data);
+                            if (_this.recvClean)
+                                _this.messageData = [];
                             _this.writeNews(0, data);
                         }
                     }
