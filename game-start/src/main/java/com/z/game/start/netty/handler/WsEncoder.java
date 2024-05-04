@@ -1,5 +1,6 @@
 package com.z.game.start.netty.handler;
 
+import com.z.game.start.constant.SysMsgId;
 import com.z.game.start.msg.Message;
 import com.z.game.start.msg.MessageContent;
 import com.z.game.start.util.JsonUtils;
@@ -8,8 +9,13 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOutboundHandlerAdapter;
 import io.netty.channel.ChannelPromise;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class WsEncoder extends ChannelOutboundHandlerAdapter {
+
+    private static final Logger LOGGER = LogManager.getLogger(WsEncoder.class);
+
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
         if (!(msg instanceof MessageContent)) {
@@ -17,7 +23,7 @@ public class WsEncoder extends ChannelOutboundHandlerAdapter {
             return;
         }
 
-        MessageContent message = (MessageContent) msg;
+        MessageContent<?> message = (MessageContent<?>) msg;
 
         byte[] bytes = JsonUtils.toJsonBytes(message.getData());
         int version = message.getVersion();
