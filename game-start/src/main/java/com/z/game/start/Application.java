@@ -4,7 +4,9 @@ import com.z.game.start.config.ConfigManager;
 import com.z.game.start.constant.Constants;
 import com.z.game.start.core.ConnPort;
 import com.z.game.start.core.Node;
+import com.z.game.start.core.PackageScan;
 import com.z.game.start.core.Port;
+import com.z.game.start.msg.MessageCmdManager;
 import com.z.game.start.netty.WsServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,10 +18,12 @@ public class Application {
 
     public static void main(String[] args) throws InterruptedException {
         String nodeId = System.getProperty("nodeId", Constants.DEFAULT_WORD_NAME);
-        LOGGER.info("application start node:{}", nodeId);
 
         //初始化配置
         ConfigManager.init();
+        //扫包 维护注解类
+        PackageScan.init();
+
         //初始化当前节点
         Node node = new Node(nodeId, "");
         //初始化处理链接的port
@@ -33,7 +37,7 @@ public class Application {
         //最终节点启动
         node.startUp();
 
-        LOGGER.info("application start success");
+        LOGGER.info("application start up success");
     }
 
     private static void initConnPort(Node node) {

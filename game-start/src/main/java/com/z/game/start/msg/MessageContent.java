@@ -5,12 +5,14 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class BaseMessage {
+public class MessageContent<T extends Message> {
 
     private int cmd;
 
     private int version;
 
     private int flag;
+
+    private T data;
 
 }
