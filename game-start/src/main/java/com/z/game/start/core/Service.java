@@ -6,7 +6,7 @@ import lombok.Getter;
 public class Service implements Actuator {
 
     @Getter
-    private String id;
+    private final String id;
 
     protected final Port port;
 

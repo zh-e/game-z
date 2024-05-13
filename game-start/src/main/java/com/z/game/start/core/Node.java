@@ -1,16 +1,17 @@
 package com.z.game.start.core;
 
 import com.z.game.start.core.interfaces.Actuator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Node implements Actuator {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Node.class);
 
     /**
      * 编号
@@ -95,10 +96,48 @@ public class Node implements Actuator {
             port.stop();
         }
 
+        for (Port port : connPorts) {
+            port.stop();
+        }
+
     }
 
     @Override
     public void runOnce() {
 
     }
+
+    public void sendCall(Call call) {
+        String toNodeId = call.getTo().getNodeId();
+        if (nodeId.equals(toNodeId)) {
+            callHandle(call);
+        } else {
+            // TODO 不同NODE 待处理
+            LOGGER.error("暂不支持跨NODE消息处理。call:{}", call);
+        }
+
+    }
+
+    private void callHandle(Call call) {
+        Port port = ports.get(call.getTo().getPortId());
+        if (port == null) {
+            LOGGER.info("callHandle unknown port {}", call.getTo().getPortId());
+            return;
+        }
+        switch (call.getType()) {
+            case Call.TYPE_RPC:
+            case Call.TYPE_MIX:
+                port.addCall(call);
+                break;
+            case Call.TYPE_RPC_RETURN:
+                port.addCallResult(call);
+                break;
+            case Call.TYPE_PING:
+                //TODO remote ping
+                break;
+            default:
+                LOGGER.error("callHandle unknown type: {}", call.getType());
+        }
+    }
+
 }
