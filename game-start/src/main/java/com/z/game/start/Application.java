@@ -6,15 +6,14 @@ import com.z.game.start.core.ConnPort;
 import com.z.game.start.core.Node;
 import com.z.game.start.core.PackageScan;
 import com.z.game.start.core.Port;
-import com.z.game.start.msg.MessageCmdManager;
 import com.z.game.start.netty.WsServer;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class Application {
 
-    private static final Logger LOGGER = LogManager.getLogger(Application.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
     public static void main(String[] args) throws InterruptedException {
         String nodeId = System.getProperty("nodeId", Constants.DEFAULT_WORD_NAME);
