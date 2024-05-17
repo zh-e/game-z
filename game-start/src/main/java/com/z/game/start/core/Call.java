@@ -39,8 +39,8 @@ public class Call {
 
     private Object[] methodParam;
 
-    public Param returns = new Param();
+    private Param returns = new Param();
 
-    public Param param = new Param();
+    private Param param = new Param();
 
 }
