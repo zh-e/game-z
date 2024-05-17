@@ -201,7 +201,7 @@ var Vm = new Vue({
                 data = _this.content;
             }
             try {
-                _this.instance.send(Vm.dataToArrayBuffer(_this.cmd, JSON.parse(data)));
+                _this.instance.send(Vm.dataToArrayBuffer(_this.cmd, data));
                 _this.writeNews(1, data);
                 if (_this.sendClean && typeof raw === 'object') {
                     _this.cmd = '';
@@ -222,6 +222,9 @@ var Vm = new Vue({
         },
 
         dataToArrayBuffer: function (cmd, data) {
+            if (typeof data !== "object") {
+                data = JSON.parse(data);
+            }
             let dataArray = this.stringToByteArray(JSON.stringify(data));
             let arrayBuffer = new ArrayBuffer(10 + dataArray.length);
             let dataView = new DataView(arrayBuffer);
