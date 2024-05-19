@@ -65,21 +65,9 @@ public class ConnService extends Service {
             String ticket = login.getTicket();
 
             if (uid.equals(ticket)) {
-                MessageContent<Login> resp = new MessageContent<>();
-                resp.setCmd(SysMsgId.LOGIN);
-                resp.setUid(uid);
-                resp.setData(login);
-
-                this.sendMsg(resp);
+                this.sendMsg(new MessageContent<>(SysMsgId.LOGIN, uid, login));
             } else {
-                Fail fail = new Fail();
-                fail.setTip("登陆校验失败");
-
-                MessageContent<Fail> resp = new MessageContent<>();
-                resp.setCmd(SysMsgId.LOGIN);
-                resp.setUid(uid);
-                resp.setData(fail);
-                this.sendMsg(resp);
+                this.sendMsg(new MessageContent<>(SysMsgId.LOGIN, uid, new Fail("登陆校验失败")));
             }
             return;
         }
