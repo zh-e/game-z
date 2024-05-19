@@ -2,6 +2,7 @@ package com.z.game.start.core;
 
 import com.z.game.start.core.interfaces.Actuator;
 
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Node implements Actuator {
@@ -9,12 +10,14 @@ public class Node implements Actuator {
     /**
      * 编号
      */
-    private final String nodeId;
+    private String nodeId;
 
     /**
      * 地址
      */
-    private final String nodeAddr;
+    private String nodeAddr;
+
+    private static volatile Node INSTANCE;
 
     /**
      * 是否正在运行
@@ -24,11 +27,22 @@ public class Node implements Actuator {
     /**
      * 下游所有port
      */
-    private final ConcurrentHashMap<String, Port> ports = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, Port> ports = new ConcurrentHashMap<>();
 
-    private final ThreadHandler threadHandler;
+    private ThreadHandler threadHandler;
 
-    public Node(String nodeId, String nodeAddr) {
+    public static Node getInstance() {
+        if (INSTANCE == null) {
+            synchronized (Node.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new Node();
+                }
+            }
+        }
+        return INSTANCE;
+    }
+
+    public void init(String nodeId, String nodeAddr) {
         this.nodeId = nodeId;
         this.nodeAddr = nodeAddr;
         this.running = true;
@@ -36,7 +50,7 @@ public class Node implements Actuator {
     }
 
     public void startUp() {
-
+        threadHandler.startUp();
     }
 
     public boolean addPort(Port port) {

@@ -13,6 +13,8 @@ public class MessageContent<T extends Message> {
 
     private int flag;
 
+    private String uid;
+
     private T data;
 
 }
