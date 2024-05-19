@@ -1,6 +1,7 @@
 package com.z.game.start.core;
 
 import com.z.game.start.msg.MessageContent;
+import io.netty.channel.Channel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,10 +20,13 @@ public class ConnService extends Service {
     @Setter
     private boolean online = true;
 
+    private final Channel channel;
+
     private final ConcurrentLinkedQueue<MessageContent<?>> datas = new ConcurrentLinkedQueue<>();
 
-    public ConnService(Port port) {
-        super(port);
+    public ConnService(String id, Port port, Channel channel) {
+        super(id, port);
+        this.channel = channel;
     }
 
     public void putData(MessageContent<?> message) {
@@ -33,5 +37,16 @@ public class ConnService extends Service {
 
     }
 
+    @Override
+    public void pulse() {
+        while (!datas.isEmpty()) {
+            MessageContent<?> message = datas.poll();
+            this.sendMsg(message);
+        }
+    }
+
+    public void sendMsg(MessageContent<?> content) {
+        channel.writeAndFlush(content);
+    }
 
 }
