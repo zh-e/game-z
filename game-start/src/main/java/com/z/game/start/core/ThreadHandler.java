@@ -2,6 +2,9 @@ package com.z.game.start.core;
 
 import com.z.game.start.core.interfaces.Actuator;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class ThreadHandler extends Thread {
 
     /**
@@ -43,19 +46,19 @@ public class ThreadHandler extends Thread {
     @Override
     public void run() {
         actuator.start();
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (running) {
+                    actuator.runOnce();
+                } else {
+                    timer.cancel();
+                    actuator.stop();
+                }
 
-        while (running) {
-            actuator.runOnce();
-
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
             }
-
-        }
-
-        actuator.start();
-
+        }, 0L, 1L);
     }
+
 }
