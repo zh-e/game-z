@@ -1,4 +1,4 @@
-package com.z.game.start.core;
+package com.z.game.start.support;
 
 import com.z.game.start.config.ConfigManager;
 import com.z.game.start.msg.Message;
