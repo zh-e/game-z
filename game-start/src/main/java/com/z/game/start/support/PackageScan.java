@@ -1,6 +1,7 @@
 package com.z.game.start.support;
 
 import com.z.game.start.config.ConfigManager;
+import com.z.game.start.core.MethodManager;
 import com.z.game.start.msg.Message;
 import com.z.game.start.msg.MessageCmd;
 import com.z.game.start.msg.MessageCmdManager;
@@ -9,14 +10,12 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -38,6 +37,9 @@ public class PackageScan {
                 // MessageCmd 处理
                 addMessageCmd(clazz);
 
+                //method 处理
+                addMethod(clazz);
+
             }
 
         } catch (Exception e) {
@@ -55,6 +57,21 @@ public class PackageScan {
             return;
         }
         MessageCmdManager.registerCmd(command.cmd(), (Class<? extends Message>) clazz);
+    }
+
+    public static void addMethod(Class<?> clazz) {
+        boolean isService = Arrays.stream(clazz.getAnnotations()).anyMatch(a -> a.annotationType() == Service.class);
+        if (!isService) {
+            return;
+        }
+        Method[] ms = clazz.getMethods();
+        for (Method m : ms) {
+            boolean isMethod = Arrays.stream(m.getAnnotations()).anyMatch(a -> a.annotationType() == com.z.game.start.support.Method.class);
+            if (!isMethod) {
+                continue;
+            }
+            MethodManager.registerMethod(clazz, m);
+        }
     }
 
 
