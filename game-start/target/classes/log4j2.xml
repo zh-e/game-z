@@ -1,0 +1,14 @@
+<Configuration status="WARN" monitorInterval="5">
+    <Appenders>
+
+        <Console name="Out">
+            <PatternLayout pattern="%style{%d{ISO8601}}{bright,green} %highlight{%-5p} [%style{%t}{bright,blue}] %style{%C{}}{bright,yellow}: %msg%n%style{%throwable}{red}" />
+        </Console>
+
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="Out"/>
+        </Root>
+    </Loggers>
+</Configuration>

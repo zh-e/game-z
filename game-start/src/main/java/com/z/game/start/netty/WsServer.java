@@ -10,8 +10,12 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class WsServer extends Thread {
+
+    private static final Logger LOGGER = LogManager.getLogger(WsServer.class);
 
     private final int bossGroupSize;
 
@@ -35,21 +39,16 @@ public class WsServer extends Thread {
 
         try {
             ServerBootstrap b = new ServerBootstrap();
-            b.group(bossGroup, workerGroup)
-                    .channel(NioServerSocketChannel.class)
-                    .option(ChannelOption.SO_BACKLOG, 10240)
-                    .option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
-                    .childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
-                    .childHandler(initializer);
+            b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class).option(ChannelOption.SO_BACKLOG, 10240).option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT).childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT).childHandler(initializer);
 
             Channel ch = b.bind(port).sync().channel();
 
             Runtime.getRuntime().addShutdownHook(new Thread(() -> stopServer(bossGroup, workerGroup)));
 
-            System.out.println("Ws server started on port " + port);
+            LOGGER.info("Ws server started on port:{}", port);
+
         } catch (Exception e) {
-            //TODO 异常处理
-            e.printStackTrace();
+            LOGGER.error("Ws server start error", e);
         }
     }
 
