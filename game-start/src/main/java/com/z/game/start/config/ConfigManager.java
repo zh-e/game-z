@@ -27,8 +27,9 @@ public class ConfigManager {
             int groupSize = getIntProperty(properties, "server.netty.boss.group.size", 1);
             int workerSize = getIntProperty(properties, "server.netty.boss.worker.size", 16);
             int port = getIntProperty(properties, "server.netty.port", 8080);
+            int connPortCount = getIntProperty(properties, "server.port.conn.count", 8);
 
-            serverConfig = new ServerConfig(port, groupSize, workerSize);
+            serverConfig = new ServerConfig(port, groupSize, workerSize, connPortCount);
 
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PingMsg implements IMessage {
+public class PingMsg implements BaseMessage {
 
     private int sn;
 

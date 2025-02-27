@@ -1,5 +1,7 @@
 package com.z.game.start.netty;
 
+import com.z.game.start.config.ConfigManager;
+import com.z.game.start.config.ServerConfig;
 import com.z.game.start.netty.handler.DefaultWsHandlerManager;
 import com.z.game.start.netty.handler.HandlerInitializer;
 import com.z.game.start.netty.handler.HandlerManager;
@@ -17,22 +19,13 @@ public class WsServer extends Thread {
 
     private static final Logger LOGGER = LogManager.getLogger(WsServer.class);
 
-    private final int bossGroupSize;
-
-    private final int workerGroupSize;
-
-    private final int port;
-
-    public WsServer(int bossGroupSize, int workerGroupSize, int port) {
-        this.bossGroupSize = bossGroupSize;
-        this.workerGroupSize = workerGroupSize;
-        this.port = port;
-    }
-
     @Override
     public void run() {
-        EventLoopGroup bossGroup = new NioEventLoopGroup(bossGroupSize);
-        EventLoopGroup workerGroup = new NioEventLoopGroup(workerGroupSize);
+
+        ServerConfig serverConfig = ConfigManager.getServerConfig();
+
+        EventLoopGroup bossGroup = new NioEventLoopGroup(serverConfig.getNettyBossGroupSize());
+        EventLoopGroup workerGroup = new NioEventLoopGroup(serverConfig.getNettyWorkerGroupSize());
 
         HandlerManager handlerManager = new DefaultWsHandlerManager();
         HandlerInitializer initializer = new HandlerInitializer(handlerManager);
@@ -41,11 +34,11 @@ public class WsServer extends Thread {
             ServerBootstrap b = new ServerBootstrap();
             b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class).option(ChannelOption.SO_BACKLOG, 10240).option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT).childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT).childHandler(initializer);
 
-            Channel ch = b.bind(port).sync().channel();
+            Channel ch = b.bind(serverConfig.getNettyPort()).sync().channel();
 
             Runtime.getRuntime().addShutdownHook(new Thread(() -> stopServer(bossGroup, workerGroup)));
 
-            LOGGER.info("Ws server started on port:{}", port);
+            LOGGER.info("Ws server started on port:{}", serverConfig.getNettyPort());
 
         } catch (Exception e) {
             LOGGER.error("Ws server start error", e);

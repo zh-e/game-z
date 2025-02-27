@@ -12,6 +12,10 @@ public class Port implements Actuator {
         this.portId = portId;
     }
 
+    public void startUp(Node node) {
+
+    }
+
     @Override
     public void start() {
 
