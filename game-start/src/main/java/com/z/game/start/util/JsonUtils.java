@@ -47,10 +47,10 @@ public class JsonUtils {
         }
     }
 
-    public static <T> T fromJson(byte[] json, Class<T> clazz) {
+    public static <T> T fromJson(byte[] bytes, Class<T> clazz) {
         try {
 
-            return MAPPER.readValue(json, clazz);
+            return MAPPER.readValue(bytes, clazz);
         } catch (IOException e) {
             return null;
         }
@@ -60,6 +60,15 @@ public class JsonUtils {
         try {
             return MAPPER.readValue(json, typeReference);
         } catch (JsonProcessingException e) {
+            return null;
+        }
+    }
+
+    public static <T> T fromJson(byte[] bytes, TypeReference<T> typeReference) {
+        try {
+
+            return MAPPER.readValue(bytes, typeReference);
+        } catch (IOException e) {
             return null;
         }
     }

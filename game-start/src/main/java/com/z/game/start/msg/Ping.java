@@ -6,12 +6,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PingMsg extends BaseMessage {
+@MessageCmd(cmd = SysMsgId.HEART_BEAT)
+public class Ping implements Message {
 
     private int sn;
 
-    @Override
-    public int getCmd() {
-        return SysMsgId.HEART_BEAT;
-    }
 }
