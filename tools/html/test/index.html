@@ -81,6 +81,10 @@
                                         </div>
                                         <!-- 手动发送 -->
                                         <div class="card-text mt-2">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">CMD</div>
+                                                <input title="" type="text" class="form-control text-center" v-model="cmd" :disabled="!connected">
+                                            </div>
                                             <textarea class="form-control mt-1" id="exampleTextarea" rows="2" placeholder="需要发送到服务端的内容" v-model="content" :disabled="!connected"></textarea>
                                             <div class="custom-control custom-checkbox inline-flex mt-2">
                                                 <input type="checkbox" class="custom-control-input" id="sendClean" v-model="sendClean" :disabled="!connected">
