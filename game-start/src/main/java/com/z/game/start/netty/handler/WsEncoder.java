@@ -1,7 +1,5 @@
 package com.z.game.start.netty.handler;
 
-import com.z.game.start.constant.SysMsgId;
-import com.z.game.start.msg.Message;
 import com.z.game.start.msg.MessageContent;
 import com.z.game.start.util.JsonUtils;
 import io.netty.buffer.ByteBuf;
@@ -9,12 +7,12 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOutboundHandlerAdapter;
 import io.netty.channel.ChannelPromise;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WsEncoder extends ChannelOutboundHandlerAdapter {
 
-    private static final Logger LOGGER = LogManager.getLogger(WsEncoder.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WsEncoder.class);
 
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {

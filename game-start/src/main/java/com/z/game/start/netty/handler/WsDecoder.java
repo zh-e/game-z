@@ -1,6 +1,5 @@
 package com.z.game.start.netty.handler;
 
-import com.z.game.start.constant.SysMsgId;
 import com.z.game.start.msg.Message;
 import com.z.game.start.msg.MessageCmdManager;
 import com.z.game.start.msg.MessageContent;
@@ -9,12 +8,12 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WsDecoder extends ChannelInboundHandlerAdapter {
 
-    private static final Logger LOGGER = LogManager.getLogger(WsEncoder.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WsEncoder.class);
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
