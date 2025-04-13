@@ -42,7 +42,7 @@ public class WsServerHandler extends SimpleChannelInboundHandler<MessageContent<
         conn = new ConnService(port);
 
         //启动连接
-        conn.startup();
+//        conn.startup();
 
     }
 
