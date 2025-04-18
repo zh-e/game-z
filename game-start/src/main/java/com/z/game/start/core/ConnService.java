@@ -15,6 +15,10 @@ public class ConnService extends Service {
     @Setter
     private String uid;
 
+    @Getter
+    @Setter
+    private boolean online = true;
+
     private final ConcurrentLinkedQueue<MessageContent<?>> datas = new ConcurrentLinkedQueue<>();
 
     public ConnService(Port port) {
@@ -23,6 +27,10 @@ public class ConnService extends Service {
 
     public void putData(MessageContent<?> message) {
         datas.add(message);
+    }
+
+    public void delayClose() {
+
     }
 
 
