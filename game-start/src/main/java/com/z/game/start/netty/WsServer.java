@@ -15,6 +15,10 @@ public class WsServer extends Thread {
 
     private int port;
 
+    public WsServer(int port) {
+        this.port = port;
+    }
+
     @Override
     public void run() {
         EventLoopGroup bossGroup = new NioEventLoopGroup();
@@ -36,6 +40,7 @@ public class WsServer extends Thread {
 
             Runtime.getRuntime().addShutdownHook(new Thread(() -> stopServer(bossGroup, workerGroup)));
 
+            System.out.println("Ws server started on port " + port);
         } catch (Exception e) {
             e.printStackTrace();
         }
