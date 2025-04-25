@@ -1,6 +1,7 @@
 package com.z.game.start.netty.handler;
 
 import com.z.game.start.constant.Constants;
+import com.z.game.start.constant.SysMsgId;
 import com.z.game.start.core.ConnService;
 import com.z.game.start.core.Node;
 import com.z.game.start.core.Port;
@@ -8,7 +9,6 @@ import com.z.game.start.msg.Message;
 import com.z.game.start.msg.MessageContent;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.util.AttributeKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
