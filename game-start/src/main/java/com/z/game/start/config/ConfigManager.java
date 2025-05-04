@@ -28,8 +28,8 @@ public class ConfigManager {
             int workerSize = getIntProperty(properties, "server.netty.boss.worker.size", 16);
             int port = getIntProperty(properties, "server.netty.port", 8080);
             int connPortCount = getIntProperty(properties, "server.port.conn.count", 8);
-
-            serverConfig = new ServerConfig(port, groupSize, workerSize, connPortCount);
+            String scanPackage = properties.getProperty("server.scan.package");
+            serverConfig = new ServerConfig(port, groupSize, workerSize, connPortCount, scanPackage);
 
         } catch (IOException e) {
             throw new RuntimeException(e);

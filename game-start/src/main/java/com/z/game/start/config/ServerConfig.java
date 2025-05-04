@@ -19,4 +19,6 @@ public class ServerConfig {
 
     private int connPortCount = 8;
 
+    private String scanPackage;
+
 }

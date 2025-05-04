@@ -97,7 +97,7 @@ var Vm = new Vue({
                                 _this.messageData = [];
 
                             if (data.cmd === 1000) {
-                                _this.writeConsole('info', '收到消息' + JSON.stringify(data))
+                                _this.writeConsole('info', '收到消息:' + JSON.stringify(data))
                             } else {
                                 _this.writeNews(0, data);
                             }
