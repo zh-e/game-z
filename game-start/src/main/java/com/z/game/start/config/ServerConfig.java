@@ -17,4 +17,6 @@ public class ServerConfig {
 
     private int nettyWorkerGroupSize = 16;
 
+    private int connPortCount = 8;
+
 }
