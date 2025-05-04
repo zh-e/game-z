@@ -14,9 +14,9 @@ public class Application {
 
     private static final Logger LOGGER = LogManager.getLogger(Application.class);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         String nodeId = System.getProperty("nodeId", Constants.DEFAULT_WORD_NAME);
-        LOGGER.info("application start node={}", nodeId);
+        LOGGER.info("application start node:{}", nodeId);
 
         //初始化配置
         ConfigManager.init();
@@ -28,10 +28,12 @@ public class Application {
         //netty长链接建立
         WsServer wsServer = new WsServer();
         wsServer.start();
+        wsServer.join();
 
         //最终节点启动
         node.startUp();
 
+        LOGGER.info("application start success");
     }
 
     private static void initConnPort(Node node) {
