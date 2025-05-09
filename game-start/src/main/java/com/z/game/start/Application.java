@@ -4,7 +4,7 @@ import com.z.game.start.config.ConfigManager;
 import com.z.game.start.constant.Constants;
 import com.z.game.start.core.ConnPort;
 import com.z.game.start.core.Node;
-import com.z.game.start.core.PackageScan;
+import com.z.game.start.support.PackageScan;
 import com.z.game.start.core.Port;
 import com.z.game.start.netty.WsServer;
 import org.slf4j.Logger;
