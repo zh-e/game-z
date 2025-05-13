@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Port implements Actuator {
 
@@ -19,6 +20,12 @@ public class Port implements Actuator {
     private final ThreadHandler threadHandler;
 
     private final ConcurrentHashMap<String, Service> services = new ConcurrentHashMap<>();
+
+    //接收到待处理的请求
+    private final ConcurrentLinkedQueue<Call> calls = new ConcurrentLinkedQueue<>();
+
+    //接收到的请求返回值
+    private final ConcurrentLinkedQueue<Call> callResults = new ConcurrentLinkedQueue<>();
 
     public Port(String portId) {
         this.portId = portId;
@@ -43,7 +50,9 @@ public class Port implements Actuator {
 
     @Override
     public void stop() {
-
+        for (Service s : services.values()) {
+            s.stop();
+        }
     }
 
     @Override
@@ -55,7 +64,6 @@ public class Port implements Actuator {
         services.put(service.getId(), service);
     }
 
-
     protected void pulseServices() {
         for (Service service : services.values()) {
             try {
@@ -65,4 +73,13 @@ public class Port implements Actuator {
             }
         }
     }
+
+    public void addCall(Call call) {
+        calls.add(call);
+    }
+
+    public void addCallResult(Call call) {
+        callResults.add(call);
+    }
+
 }
