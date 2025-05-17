@@ -21,6 +21,7 @@ var Vm = new Vue({
         heartBeatContent: {
             sn: 1
         },
+        cmd: 0,
         autoSend: false,
         autoTimer: undefined,
         sendClean: false,
@@ -191,13 +192,21 @@ var Vm = new Vue({
         sendData: function (raw) {
             var _this = Vm
             var data  = raw
+            if (_this.cmd === '') {
+                _this.writeAlert('danger', '消息CMD不可为空');
+                return;
+            }
+            console.log(typeof data === 'object');
             if (typeof data === 'object') {
-                data = _this.content
+                data = _this.content;
             }
             try {
-                _this.instance.send(data);
+                _this.instance.send(Vm.dataToArrayBuffer(_this.cmd, JSON.parse(data)));
                 _this.writeNews(1, data);
-                if (_this.sendClean && typeof raw === 'object') _this.content = '';
+                if (_this.sendClean && typeof raw === 'object') {
+                    _this.cmd = '';
+                    _this.content = '';
+                }
             } catch (err) {
                 _this.writeAlert('danger', '消息发送失败 原因请查看控制台');
                 throw err;

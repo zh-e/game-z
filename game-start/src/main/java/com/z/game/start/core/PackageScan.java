@@ -27,7 +27,7 @@ public class PackageScan {
     public static void init() {
         String scanPackage = ConfigManager.getServerConfig().getScanPackage();
         Set<String> path = new HashSet<>();
-        if (scanPackage != null && !scanPackage.isBlank()) {
+        if (scanPackage != null && !scanPackage.isEmpty()) {
             path.add(scanPackage);
         }
         path.add("com.z.game");
@@ -69,7 +69,7 @@ public class PackageScan {
     private static Set<Class<?>> find(String packageName) throws IOException, ClassNotFoundException {
         Set<Class<?>> result = new HashSet<Class<?>>();
         for (String className : getClassName(packageName)) {
-            if (className.isBlank()) {
+            if (className.isEmpty()) {
                 continue;
             }
 
@@ -93,7 +93,7 @@ public class PackageScan {
             URL resource = resources.nextElement();
             String protocol = resource.getProtocol();
             if ("file".equals(protocol)) {
-                String filePath = URLDecoder.decode(resource.getFile(), StandardCharsets.UTF_8);
+                String filePath = URLDecoder.decode(resource.getFile(), String.valueOf(StandardCharsets.UTF_8));
                 fileNames.addAll(getClassNameByFile(packageName, filePath));
             } else if ("jar".equals(protocol)) {
                 JarFile jar = ((JarURLConnection) resource.openConnection()).getJarFile();
