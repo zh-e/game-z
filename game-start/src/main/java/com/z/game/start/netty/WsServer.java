@@ -12,12 +12,12 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WsServer extends Thread {
 
-    private static final Logger LOGGER = LogManager.getLogger(WsServer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WsServer.class);
 
     @Override
     public void run() {

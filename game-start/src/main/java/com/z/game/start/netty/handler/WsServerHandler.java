@@ -4,15 +4,14 @@ import com.z.game.start.msg.Message;
 import com.z.game.start.msg.MessageContent;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class WsServerHandler extends SimpleChannelInboundHandler<MessageContent<? extends Message>> {
 
-    private static final Logger LOGGER = LogManager.getLogger(WsServerHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WsServerHandler.class);
 
     private static final AtomicInteger ONLINE_COUNT = new AtomicInteger(0);
 
