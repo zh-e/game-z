@@ -7,6 +7,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class WsServerHandler extends SimpleChannelInboundHandler<MessageContent<? extends Message>> {
@@ -17,7 +18,6 @@ public class WsServerHandler extends SimpleChannelInboundHandler<MessageContent<
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, MessageContent content) throws Exception {
-
         ctx.writeAndFlush(content);
 
     }
