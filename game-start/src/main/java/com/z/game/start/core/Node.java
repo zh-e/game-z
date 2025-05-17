@@ -1,6 +1,7 @@
 package com.z.game.start.core;
 
 import com.z.game.start.core.interfaces.Actuator;
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +17,7 @@ public class Node implements Actuator {
     /**
      * 编号
      */
+    @Getter
     private String nodeId;
 
     /**

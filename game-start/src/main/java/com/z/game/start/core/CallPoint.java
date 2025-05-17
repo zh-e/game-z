@@ -17,4 +17,9 @@ public class CallPoint {
 
     private String serviceId;
 
+    public CallPoint(String nodeId, String portId) {
+        this.nodeId = nodeId;
+        this.portId = portId;
+    }
+
 }
