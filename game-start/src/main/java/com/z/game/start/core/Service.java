@@ -10,6 +10,10 @@ public class Service implements Actuator {
         this.port = port;
     }
 
+    public void startUp() {
+
+    }
+
     @Override
     public void start() {
 
@@ -24,4 +28,6 @@ public class Service implements Actuator {
     public void runOnce() {
 
     }
+
+
 }

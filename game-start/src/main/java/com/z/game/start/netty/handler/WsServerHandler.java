@@ -26,6 +26,8 @@ public class WsServerHandler extends SimpleChannelInboundHandler<MessageContent<
     protected void channelRead0(ChannelHandlerContext ctx, MessageContent content) throws Exception {
         ctx.writeAndFlush(content);
 
+        
+
     }
 
     @Override
@@ -35,15 +37,15 @@ public class WsServerHandler extends SimpleChannelInboundHandler<MessageContent<
 
         ONLINE_COUNT.incrementAndGet();
 
-        Port port = Node.getInstance().getPort("");
-
+        Port port = Node.getInstance().getRandomConnPort();
 
         //初始化连接 判断断线重连在登录回调中做
         conn = new ConnService(port);
 
         //启动连接
-//        conn.startup();
+        conn.startUp();
 
+        ctx.channel().attr(AttributeKey.valueOf("attr_connect")).set(conn);
     }
 
     @Override
@@ -53,6 +55,10 @@ public class WsServerHandler extends SimpleChannelInboundHandler<MessageContent<
         LOGGER.info("用户断开连接");
 
         ONLINE_COUNT.decrementAndGet();
+        //设置为离线
+        conn.setOnline(false);
+        //延时处理
+        conn.delayClose();
 
     }
 }

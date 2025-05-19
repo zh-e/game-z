@@ -19,7 +19,11 @@ public class Port implements Actuator {
 
     public void startUp(Node node) {
         this.node = node;
-        node.addPort(this);
+        if (this instanceof ConnPort) {
+
+        } else {
+            node.addPort(this);
+        }
 
         this.threadHandler.startUp();
     }
