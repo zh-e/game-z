@@ -20,14 +20,14 @@ public class WsServerHandler extends SimpleChannelInboundHandler<MessageContent<
 
     private static final AtomicInteger ONLINE_COUNT = new AtomicInteger(0);
 
+    private static final AtomicInteger ID_AUTO = new AtomicInteger(0);
+
     private ConnService conn;
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, MessageContent content) throws Exception {
-        ctx.writeAndFlush(content);
-
-        
-
+        //消息放入队列
+        conn.putData(content);
     }
 
     @Override
@@ -39,13 +39,13 @@ public class WsServerHandler extends SimpleChannelInboundHandler<MessageContent<
 
         Port port = Node.getInstance().getRandomConnPort();
 
+
         //初始化连接 判断断线重连在登录回调中做
-        conn = new ConnService(port);
+        conn = new ConnService(Constants.CONN_SERVICE_NAME_PRE + ID_AUTO.incrementAndGet(), port, ctx.channel());
 
         //启动连接
         conn.startUp();
 
-        ctx.channel().attr(AttributeKey.valueOf("attr_connect")).set(conn);
     }
 
     @Override
