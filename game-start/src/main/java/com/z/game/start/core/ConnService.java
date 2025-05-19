@@ -4,6 +4,7 @@ import com.z.game.start.constant.SysMsgId;
 import com.z.game.start.msg.Fail;
 import com.z.game.start.msg.Login;
 import com.z.game.start.msg.MessageContent;
+import com.z.game.start.support.ConnectionManager;
 import io.netty.channel.Channel;
 import lombok.Getter;
 import lombok.Setter;
@@ -41,6 +42,12 @@ public class ConnService extends Service {
     }
 
     @Override
+    public void stop() {
+        //解绑
+        ConnectionManager.unregister(uid);
+    }
+
+    @Override
     public void pulse() {
         while (!datas.isEmpty()) {
             MessageContent<?> message = datas.poll();
@@ -65,6 +72,8 @@ public class ConnService extends Service {
             String ticket = login.getTicket();
 
             if (uid.equals(ticket)) {
+                //注册进统一管理
+                ConnectionManager.register(uid, this);
                 this.sendMsg(new MessageContent<>(SysMsgId.LOGIN, uid, login));
             } else {
                 this.sendMsg(new MessageContent<>(SysMsgId.LOGIN, uid, new Fail("登陆校验失败")));
